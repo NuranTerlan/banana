@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Presentation_API.Data;
 
 namespace Presentation_API
@@ -27,6 +29,28 @@ namespace Presentation_API
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Banana API",
+                    Description = "Social media of book readers and Book reading tracker app",
+                    // TermsOfService = ...
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Nuran Terlan",
+                        Email = "nuranterlan@devvhale.net",
+                        Url = new Uri("https://www.linkedin.com/in/nuran-t%C9%99rlan-3744a71a3/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://github.com/NuranTerlan/banana")
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +64,13 @@ namespace Presentation_API
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Banana API v1");
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
