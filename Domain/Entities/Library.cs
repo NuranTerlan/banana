@@ -6,6 +6,11 @@ namespace Domain.Entities
 {
     public class Library : AuditEntity
     {
+        public Library()
+        {
+            Books = new List<Book>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
 
