@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commons\Behaviors\" />
+  </ItemGroup>
+
 </Project>
