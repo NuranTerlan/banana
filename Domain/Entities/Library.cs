@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain.Commons;
 
 namespace Domain.Entities
@@ -11,9 +10,8 @@ namespace Domain.Entities
             Books = new List<Book>();
         }
 
-        public int Id { get; set; }
         public string Name { get; set; }
 
-        public IList<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }
