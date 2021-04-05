@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Application.Commons.Interfaces;
 using Domain.Commons;
 using Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -21,10 +20,14 @@ namespace Infrastructure.Data
             _currentUserService = currentUserService;
         }
 
-        public DbSet<Library> Libraries { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Badge> Badges { get; set; }
+        public DbSet<Rate> Rates { get; set; }
+        public DbSet<AuthorBookmark> AuthorBookmarks { get; set; }
+        public DbSet<AuthorBadge> AuthorBadges { get; set; }
+        public DbSet<BookCategory> BookCategories { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
