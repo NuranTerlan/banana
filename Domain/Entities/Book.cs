@@ -16,9 +16,13 @@ namespace Domain.Entities
         public short PageCount { get; set; }
         public int ReadCount { get; set; }
 
+        public int RateId { get; set; }
+        public virtual Rate Rate { get; set; }
+
         public int AuthorId { get; set; }
         public virtual Author Author { get; set; }
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }
+        public virtual ICollection<AuthorBookmark> AuthorBookmarks { get; set; }
     }
 }
