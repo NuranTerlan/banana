@@ -1,4 +1,6 @@
-﻿using Domain.Commons;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Domain.Commons;
 
 namespace Domain.Entities
 {
@@ -6,6 +8,11 @@ namespace Domain.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Biography { get; set; }
+        public byte Age { get; set; }
+        public string Email { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public string RealJob { get; set; }
+
+        public virtual ICollection<Book> Books { get; set; }
     }
 }
