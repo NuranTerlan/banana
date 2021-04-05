@@ -1,4 +1,5 @@
-﻿using Domain.Commons;
+﻿using System.Collections.Generic;
+using Domain.Commons;
 
 namespace Domain.Entities
 {
@@ -8,5 +9,7 @@ namespace Domain.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+
+        public virtual ICollection<AuthorBadge> AuthorBadges { get; set; }
     }
 }
