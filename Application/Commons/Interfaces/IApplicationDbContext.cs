@@ -7,10 +7,14 @@ namespace Application.Commons.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<Library> Libraries { get; set; }
         DbSet<Book> Books { get; set; }
         DbSet<Author> Authors { get; set; }
         DbSet<Category> Categories { get; set; }
+        DbSet<Badge> Badges { get; set; }
+        DbSet<Rate> Rates { get; set; }
+        DbSet<AuthorBookmark> AuthorBookmarks { get; set; }
+        DbSet<AuthorBadge> AuthorBadges { get; set; }
+        DbSet<BookCategory> BookCategories { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
