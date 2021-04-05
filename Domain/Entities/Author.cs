@@ -14,5 +14,7 @@ namespace Domain.Entities
         public string RealJob { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<AuthorBookmark> AuthorBookmarks { get; set; }
+        public virtual ICollection<AuthorBadge> AuthorBadges { get; set; }
     }
 }
