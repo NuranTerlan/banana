@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using Application.Commons.Interfaces;
 using Domain.Commons;
 using Domain.Entities;
-using Infrastructure.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         private readonly ICurrentUserService _currentUserService;
 
@@ -34,7 +33,6 @@ namespace Infrastructure.Data
                 switch (entityEntry.State)
                 {
                     case EntityState.Added:
-                        entityEntry.Entity.CreatedBy = _currentUserService.UserId;
                         entityEntry.Entity.CreationTime = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
