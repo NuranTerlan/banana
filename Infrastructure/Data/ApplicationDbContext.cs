@@ -10,14 +10,11 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
-        private readonly ICurrentUserService _currentUserService;
 
         public ApplicationDbContext(
-            DbContextOptions<ApplicationDbContext> options,
-            ICurrentUserService currentUserService)
+            DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            _currentUserService = currentUserService;
         }
 
         public DbSet<Book> Books { get; set; }
@@ -29,7 +26,7 @@ namespace Infrastructure.Data
         public DbSet<AuthorBadge> AuthorBadges { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entityEntry in ChangeTracker.Entries<AuditEntity>())
             {
@@ -44,7 +41,44 @@ namespace Infrastructure.Data
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AuthorBadge>()
+                .HasKey(ab => new {ab.AuthorId, ab.BadgeId});
+            modelBuilder.Entity<AuthorBadge>()
+                .HasOne(ab => ab.Author)
+                .WithMany(a => a.AuthorBadges)
+                .HasForeignKey(ab => ab.AuthorId);
+            modelBuilder.Entity<AuthorBadge>()
+                .HasOne(ab => ab.Badge)
+                .WithMany(b => b.AuthorBadges)
+                .HasForeignKey(ab => ab.BadgeId);
+
+            modelBuilder.Entity<AuthorBookmark>()
+                .HasKey(ab => new {ab.AuthorId, ab.BookId});
+            modelBuilder.Entity<AuthorBookmark>()
+                .HasOne(ab => ab.Author)
+                .WithMany(a => a.AuthorBookmarks)
+                .HasForeignKey(ab => ab.AuthorId);
+            modelBuilder.Entity<AuthorBookmark>()
+                .HasOne(ab => ab.Book)
+                .WithMany(b => b.AuthorBookmarks)
+                .HasForeignKey(ab => ab.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BookCategory>()
+                .HasKey(bc => new {bc.BookId, bc.CategoryId});
+            modelBuilder.Entity<BookCategory>()
+                .HasOne(bc => bc.Book)
+                .WithMany(b => b.BookCategories)
+                .HasForeignKey(bc => bc.BookId);
+            modelBuilder.Entity<BookCategory>()
+                .HasOne(bc => bc.Category)
+                .WithMany(c => c.BookCategories)
+                .HasForeignKey(bc => bc.CategoryId);
         }
     }
 }
