@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Domain.Commons;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
-    public class Author : AuditEntity
+    public class Author : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public byte Age { get; set; }
-        public string Email { get; set; }
         public string ProfileImageUrl { get; set; }
         public string RealJob { get; set; }
 
