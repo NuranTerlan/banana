@@ -1,5 +1,6 @@
 using System;
 using Application;
+using Application.Commons.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Presentation_API.Services;
 
 namespace Presentation_API
 {
@@ -24,6 +26,8 @@ namespace Presentation_API
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             services.AddControllersWithViews();
 
