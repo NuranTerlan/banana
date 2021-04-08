@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Application.Commons.Interfaces;
 using Domain.Commons;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<Author>, IApplicationDbContext
     {
-
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -46,6 +46,8 @@ namespace Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<AuthorBadge>()
                 .HasKey(ab => new {ab.AuthorId, ab.BadgeId});
             modelBuilder.Entity<AuthorBadge>()
