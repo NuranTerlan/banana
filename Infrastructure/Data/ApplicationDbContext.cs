@@ -25,6 +25,7 @@ namespace Infrastructure.Data
         public DbSet<AuthorBookmark> AuthorBookmarks { get; set; }
         public DbSet<AuthorBadge> AuthorBadges { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
+        public DbSet<ReaderProgress> ReaderProgresses { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -64,7 +65,8 @@ namespace Infrastructure.Data
             modelBuilder.Entity<AuthorBookmark>()
                 .HasOne(ab => ab.Author)
                 .WithMany(a => a.AuthorBookmarks)
-                .HasForeignKey(ab => ab.AuthorId);
+                .HasForeignKey(ab => ab.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<AuthorBookmark>()
                 .HasOne(ab => ab.Book)
                 .WithMany(b => b.AuthorBookmarks)
@@ -81,6 +83,20 @@ namespace Infrastructure.Data
                 .HasOne(bc => bc.Category)
                 .WithMany(c => c.BookCategories)
                 .HasForeignKey(bc => bc.CategoryId);
+
+            modelBuilder.Entity<ReaderProgress>()
+                .HasKey(rp => new {rp.BookId, rp.AuthorId});
+            modelBuilder.Entity<ReaderProgress>()
+                .HasOne(rp => rp.Book)
+                .WithMany(b => b.ReaderProgresses)
+                .HasForeignKey(rp => rp.BookId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ReaderProgress>()
+                .HasOne(rp => rp.Author)
+                .WithMany(a => a.ReaderProgresses)
+                .HasForeignKey(rp => rp.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
