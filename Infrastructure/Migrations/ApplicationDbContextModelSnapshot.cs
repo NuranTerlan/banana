@@ -181,6 +181,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -284,6 +287,36 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rates");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ReaderProgress", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AveragePerformance")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountToComplete")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LastDayPagesCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PagesPerDay")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookId", "AuthorId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("ReaderProgresses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -437,7 +470,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Author", "Author")
                         .WithMany("AuthorBookmarks")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Book", "Book")
@@ -472,6 +505,21 @@ namespace Infrastructure.Migrations
                         .WithMany("BookCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.ReaderProgress", b =>
+                {
+                    b.HasOne("Domain.Entities.Author", "Author")
+                        .WithMany("ReaderProgresses")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Book", "Book")
+                        .WithMany("ReaderProgresses")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
