@@ -16,5 +16,6 @@ namespace Domain.Entities
         public virtual ICollection<Book> Books { get; set; }
         public virtual ICollection<AuthorBookmark> AuthorBookmarks { get; set; }
         public virtual ICollection<AuthorBadge> AuthorBadges { get; set; }
+        public virtual ICollection<ReaderProgress> ReaderProgresses { get; set; }
     }
 }
