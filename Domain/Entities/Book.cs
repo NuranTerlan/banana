@@ -11,7 +11,7 @@ namespace Domain.Entities
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public DateTime? PublishedDate { get; set; }
-        // public bool IsPublished { get; set; }
+        public bool IsPublished { get; set; }
         public short PageCount { get; set; }
         public int ReadCount { get; set; }
 
@@ -23,5 +23,6 @@ namespace Domain.Entities
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }
         public virtual ICollection<AuthorBookmark> AuthorBookmarks { get; set; }
+        public virtual ICollection<ReaderProgress> ReaderProgresses { get; set; }
     }
 }
