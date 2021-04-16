@@ -15,6 +15,7 @@ namespace Application.Commons.Interfaces
         DbSet<AuthorBookmark> AuthorBookmarks { get; set; }
         DbSet<AuthorBadge> AuthorBadges { get; set; }
         DbSet<BookCategory> BookCategories { get; set; }
+        DbSet<ReaderProgress> ReaderProgresses { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
